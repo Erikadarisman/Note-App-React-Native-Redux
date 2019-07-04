@@ -7,8 +7,9 @@ const initialState = {
 };
 
 // create a reducer for getting network from RESTful API
-export default notes = (state = initialState, action) => {
+export default (notes = (state = initialState, action) => {
   switch (action.type) {
+    //get notes
     case "GET_NOTES_PENDING": // in case when loading get data
       return {
         isLoading: true
@@ -25,27 +26,59 @@ export default notes = (state = initialState, action) => {
         data: action.payload.data.values
       };
 
-    //GET CATEGORIES
-    case "GET_CATEGORIES_PENDING":
+    //add notes
+    case "ADD_NOTES_PENDING":
       return {
         ...state,
         isLoading: true
       };
-    case "GET_CATEGORIES_REJECTED":
+    case "ADD_NOTES_REJECTED":
       return {
         ...state,
         isLoading: false
       };
-    case "GET_CATEGORIES_FULFILLED":
-      console.log("Isi state");
-      console.log(state);
-      console.log("Isi Payload Action");
-      console.log(action);
+    case "ADD_NOTES_FULFILLED":
+      console.log("ISI data last");
+      console.log(action.payload.data.data[0]);
       return {
         ...state,
         isLoading: false,
-        categories: action.payload.data.values
+        data: [action.payload.data.data[0], ...state.data]
       };
+
+    //edit notes
+    case "EDIT_NOTES_PENDING":
+      return {
+        ...state,
+        isLoading: true
+      };
+    case "EDIT_NOTES_REJECTED":
+      return {
+        ...state,
+        isLoading: false
+      };
+    case "EDIT_NOTES_FULFILLED":
+      // console.log("ISI data last");
+      // console.log(action.payload.data.data[0]);
+      // console.log('action.payload.data.data');
+      // console.log(action.payload.data.data[0].id);
+      // console.log(action.payload.data.data[0]);
+      // let isi = state.data.map( notes =>(
+      //   notes.id == action.payload.data.data[0].id ? action.payload.data.data[0] : notes
+      // ))
+      // console.log('isi');
+      // console.log(isi);
+
+      return {
+        ...state,
+        isLoading: false,
+        data: state.data.map( notes =>(
+          notes.id == action.payload.data.data[0].id ? action.payload.data.data[0] : notes
+        ))
+
+      };
+
+    //GET CATEGORIES
 
     // example when updating/deleting and not getting all notes again
     // case 'UPDATE_NOTE_FULFILLED':
@@ -73,4 +106,4 @@ export default notes = (state = initialState, action) => {
     default:
       return state;
   }
-};
+});

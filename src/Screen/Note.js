@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet,Alert } from "react-native";
 import {
   Container,
   Header,
@@ -18,44 +18,45 @@ import {
   Label
 } from "native-base";
 import { connect } from "react-redux";
-// import dummycategory from '../Asset/Items';
-import { getCategories } from "../public/redux/action/notes";
+import { postNotes } from "../public/redux/action/notes";
 
+// import dummycategory from '../Asset/Items';
 
 class Note extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: "",
+      title: "",
+      text: "",
+      idCategory: ""
+    };
+  }
+
+  addNotes = () => {
+    if (
+      this.state.title != "" &&
+      this.state.text != "" &&
+      this.state.idCategory != ""
+    ) {
+      let dataNotes = {
+        title: this.state.title,
+        text: this.state.text,
+        idCategory: this.state.idCategory
+      };
+      this.props.dispatch(postNotes(dataNotes));
+    } else {
+      Alert.alert("Field title, note, category cannot empty");
     }
-    
-  }
-
-
-  componentDidMount(){
-    this.props.dispatch(getCategories());
-  }
-
-
-  dummycategory = () => {
-    let dummydata = []
-    for(let i = 0; i < dummycategory.length; i++){
-      dummydata.push(
-          <Picker.Item key={i} label={dummycategory[i].category} value={dummycategory[i].category}/>
-      )
-    }
-    return dummydata;
-
-  }
+  };
 
   render() {
-    console.log('xxxxxxxxxxxxxx');
-    console.log(this.props.notes);
-    
+    // console.log("XXXXXXXX this.props XXXXXXXXX");
+    // console.log(this.props.categories.data);
+    // console.log(this.state);
+
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
-
           <Left style={{ flex: 1 }}>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name="md-arrow-back" style={{ color: "#000000" }} />
@@ -67,42 +68,56 @@ class Note extends React.Component {
           </Body>
 
           <Right style={{ flex: 1 }}>
-            <Button transparent>
+            <Button
+              transparent
+              onPress={() => {
+                this.addNotes()
+                this.props.navigation.goBack()
+              }}
+            >
               <Thumbnail
                 source={require("../Asset/img/check.png")}
                 style={{ width: 25, height: 25 }}
               />
             </Button>
           </Right>
-
         </Header>
 
         <Content>
-            <Form>
-                <Input placeholder="ADD TITLE..." placeholderIconColor='#ecf0f1' style={styles.textStyle}/>
-                <Textarea rowSpan={12} placeholder="ADD DESCRIPTION..."style={styles.textAreaStyle}/>
-                <Label style={styles.labelstyle}>Category</Label>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  placeholder="Select Category"
-                  placeholderStyle={{ color: "#bfc6ea" }}
-                  placeholderIconColor="#007aff"
-                  style={styles.pickerStyle}
-                  onValueChange={(selectedCategory) => this.setState({selectedCategory})}
-                  selectedValue={this.state.selectedCategory}
-                  >
-                  {Object.keys(this.props.notes.category).map(key => (
-                <Picker.Item
-                  key={key}
-                  label={this.props.notes.category[key].name}
-                  value={this.props.notes.category[key].id}
-                />
+          <Form>
+            <Input
+              onChangeText={title => this.setState({ title })}
+              placeholder="ADD TITLE..."
+              placeholderIconColor="#ecf0f1"
+              style={styles.textStyle}
+            />
+            <Textarea
+              onChangeText={text => this.setState({ text })}
+              rowSpan={12}
+              placeholder="ADD DESCRIPTION..."
+              style={styles.textAreaStyle}
+            />
+            <Label style={styles.labelstyle}>Category</Label>
+            <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="arrow-down" />}
+              placeholder="Select Category"
+              placeholderStyle={{ color: "#bfc6ea" }}
+              placeholderIconColor="#007aff"
+              style={styles.pickerStyle}
+              selectedValue={this.state.idCategory}
+              onValueChange={hasil =>
+                this.setState({
+                  idCategory: hasil
+                })
+              }
+            >
+              {this.props.categories.data.map(item => (
+                <Picker.Item key={item.id} label={item.name} value={item.id} />
               ))}
-                </Picker>
-            </Form>
+            </Picker>
+          </Form>
         </Content>
-        
       </Container>
     );
   }
@@ -110,7 +125,8 @@ class Note extends React.Component {
 
 const mapsStageToProps = state => {
   return {
-    notes: state.notes
+    notes: state.notes,
+    categories: state.categories
   };
 };
 
@@ -118,32 +134,30 @@ export default connect(mapsStageToProps)(Note);
 
 const styles = StyleSheet.create({
   textStyle: {
-      width: '80%',
-      paddingLeft: 15,
-      marginLeft:'10%',
-      fontSize: 20,
-      lineHeight: 27,
-      marginTop: 10
-
+    width: "80%",
+    paddingLeft: 15,
+    marginLeft: "10%",
+    fontSize: 20,
+    lineHeight: 27,
+    marginTop: 10
   },
   textAreaStyle: {
-      width: '80%',
-      paddingLeft: 15,
-      marginLeft:'10%',
-      fontSize: 20,
-      lineHeight: 27,
-      marginTop: 10
+    width: "80%",
+    paddingLeft: 15,
+    marginLeft: "10%",
+    fontSize: 20,
+    lineHeight: 27,
+    marginTop: 10
   },
   pickerStyle: {
-      width: '50%',
-      marginLeft: '10%'
+    width: "50%",
+    marginLeft: "10%"
   },
-  labelstyle:{
-      fontSize: 19, 
-      fontWeight:"600", 
-      color:'#000000',
-      marginLeft: '10%',
-      marginTop: 10
+  labelstyle: {
+    fontSize: 19,
+    fontWeight: "600",
+    color: "#000000",
+    marginLeft: "10%",
+    marginTop: 10
   }
-
 });

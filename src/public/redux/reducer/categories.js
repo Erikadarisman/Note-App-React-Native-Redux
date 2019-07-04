@@ -35,9 +35,6 @@ export default categories = (state = initialState, action) => {
         case 'ADD_CATEGORIES_FULFILLED':
             console.log("ISI data last");
             console.log(action.payload.data.data[0]);
-            
-            
-
             return {
                 ...state,
                 isLoading: false,

@@ -10,12 +10,26 @@ export const getNotes = () => {
     }
 }
 
-export const getCategories = () =>{
-    return {
-        type: 'GET_CATEGORIES',
-        payload: axios.get(URL+'/categories')
+export const postNotes = (dataNotes) => {
+    if (dataNotes.title!=='' && dataNotes.text!=='' && dataNotes.idCategory!=='') {
+        return {
+            type:'ADD_NOTES',
+            payload:axios.post(URL+'/notes',dataNotes),
+        }
+        
     }
 }
+export const editNotes = (dataNotes) => {
+
+    if (dataNotes.id!=='' && dataNotes.title!=='' && dataNotes.text!=='' && dataNotes.idCategory!=='') {
+        return {
+            type:'EDIT_NOTES',
+            payload:axios.patch(URL+'/notes/'+dataNotes.id,dataNotes),
+        }
+        
+    }
+}
+
 
 // export const updateNote = (id) => {
 //     return {

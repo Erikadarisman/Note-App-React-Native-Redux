@@ -5,9 +5,9 @@ const initialState = {
   isLoading: false,
   isError: false
 };
-
+let notes
 // create a reducer for getting network from RESTful API
-export default (notes = (state = initialState, action) => {
+export default notes = (state = initialState, action) => {
   switch (action.type) {
     //get notes
     case "GET_NOTES_PENDING": // in case when loading get data
@@ -43,6 +43,7 @@ export default (notes = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        isError: false,
         data: [action.payload.data.data[0], ...state.data]
       };
 
@@ -69,13 +70,42 @@ export default (notes = (state = initialState, action) => {
       // console.log('isi');
       // console.log(isi);
 
+      console.log("state.data");
+      console.log(state.data);
+      
+
       return {
         ...state,
         isLoading: false,
-        data: state.data.map( notes =>(
-          notes.id == action.payload.data.data[0].id ? action.payload.data.data[0] : notes
-        ))
+        isError: false,
+        data: state.data.map(notes =>
+          notes.id == action.payload.data.data[0].id
+            ? action.payload.data.data[0]
+            : notes
+        )
+      };
 
+    case "DELETE_NOTES_PENDING":
+      return {
+        ...state,
+        isLoading: true
+      };
+    case "DELETE_NOTES_REJECTED":
+      return {
+        ...state,
+        isLoading: false
+      };
+    case "DELETE_NOTES_FULFILLED":
+      console.log('state data');
+      console.log(state.data);
+      console.log(action.payload.data.data);
+      console.log(action.payload.data.data.id);
+      
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: state.data.filter(notes => notes.id != action.payload.data.data.id)
       };
 
     //GET CATEGORIES
@@ -106,4 +136,4 @@ export default (notes = (state = initialState, action) => {
     default:
       return state;
   }
-});
+};

@@ -24,7 +24,11 @@ import {
 import { Container, Content, Header, Body, Button } from "native-base";
 
 import { connect } from "react-redux";
-import { postCategories, getCategory } from "../public/redux/action/categories";
+import {
+  postCategories,
+  getCategory,
+  deleteCategories
+} from "../public/redux/action/categories";
 
 class CustomDrawer extends Component {
   constructor(props) {
@@ -63,9 +67,39 @@ class CustomDrawer extends Component {
 
   _keyExtractor = (item, index) => item.id.toString();
 
+  deleteCategories = id => {
+    this.props.dispatch(deleteCategories(id));
+  };
+
   renderItem = ({ item, index }) => (
-    <TouchableOpacity>
-      <Button iconLeft transparent>
+    <TouchableOpacity
+      onLongPress={() =>
+        Alert.alert(
+          "Delete Category",
+          "Are you sure will you delete this category",
+          [
+            { text: "Cancel" },
+            { text: "Ok", onPress: () => this.deleteCategories(item.id) }
+          ],
+          { cancelable: false }
+        )
+      }
+    >
+      <Button
+        iconLeft
+        transparent
+        onLongPress={() =>
+          Alert.alert(
+            "Delete Category",
+            "Are you sure will you delete this category",
+            [
+              { text: "Cancel" },
+              { text: "Ok", onPress: () => this.deleteCategories(item.id) }
+            ],
+            { cancelable: false }
+          )
+        }
+      >
         <Image
           source={item.image}
           style={{ width: 25, height: 25, marginRight: 5 }}

@@ -26,14 +26,11 @@ import {
   Modal
 } from "react-native";
 
-import items from "../Asset/Items";
-// import Counter from '../Components/counter'
-import axios from "axios";
 // import connect to connect with redux store
 import { connect } from "react-redux";
 
 // import action
-import { getNotes } from "../public/redux/action/notes";
+import { getNotes, deleteNotes } from "../public/redux/action/notes";
 
 class Home extends Component {
   constructor(props) {
@@ -72,9 +69,25 @@ class Home extends Component {
 
   // key extractor for FlatList with data from randomusers
   _keyExtractor = (item, index) => item.id;
+  deleteNotes = (id) => {
+    this.props.dispatch(deleteNotes(id));
+  }
+
+  
+  
 
   renderItem = ({ item }) => (
     <TouchableOpacity
+      onLongPress={()=> Alert.alert(
+        'Delete Note',
+        'Are you sure will you delete this note',
+        [
+          {text: 'Cancel'},
+          {text:'Ok', onPress:() => this.deleteNotes(item.id)},
+        ],
+        {cancelable: false},
+      )}
+
       onPress={() => this.props.navigation.navigate("Edit", item)}
       style={[
         styles.itemContainer,
@@ -100,6 +113,7 @@ class Home extends Component {
   );
 
   render() {
+    console.warn(this.props.data)
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>

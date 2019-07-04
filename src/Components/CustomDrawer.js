@@ -24,7 +24,7 @@ import {
 import { Container, Content, Header, Body, Button } from "native-base";
 
 import { connect } from "react-redux";
-import { postCategories,getCategory } from "../public/redux/action/categories";
+import { postCategories, getCategory } from "../public/redux/action/categories";
 
 class CustomDrawer extends Component {
   constructor(props) {
@@ -76,7 +76,6 @@ class CustomDrawer extends Component {
   );
 
   render() {
-    
     return (
       <Container>
         <Header style={styles.drawerHeader}>

@@ -26,18 +26,10 @@ const AppNavigator = createStackNavigator(
 
 const DrawerNotes = createDrawerNavigator(
   {
-    Home: {
-      screen: Home
-    },
-    Note: {
-      screen: Note
-    },
-    Edit: {
-      screen: Edit
-    }
+    Route: AppNavigator
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Route",
     drawerPosition: "left",
     contentComponent: Drawer,
     drawerOpenRoute: "DrawerOpen",
@@ -46,4 +38,4 @@ const DrawerNotes = createDrawerNavigator(
   }
 );
 
-export default createAppContainer(DrawerNotes, AppNavigator);
+export default createAppContainer(DrawerNotes);

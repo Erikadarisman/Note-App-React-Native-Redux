@@ -30,11 +30,8 @@ class Note extends React.Component {
       idCategory: this.props.navigation.state.params.idCategory
     };
   }
-  onValueChange(value) {
-    this.setState({
-      selected: value
-    });
-  }
+
+
 
   editNotes = () => {
     if (
@@ -97,11 +94,11 @@ class Note extends React.Component {
               {this.props.navigation.state.params.title}
             </Input>
             <Textarea
-              onChangeText={text => this.setState({ text: text })}
               rowSpan={12}
               placeholder="ADD DESCRIPTION..."
               style={styles.textAreaStyle}
               value={this.state.text}
+              onChangeText={text => this.setState({ text: text })}
             />
             <Label style={styles.labelstyle}>Category</Label>
             <Picker

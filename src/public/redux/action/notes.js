@@ -41,3 +41,19 @@ export const deleteNotes = (id) => {
     payload: axios.delete(URL+`/notes/`+id)
   };
 };
+
+export const searchNotes = (keyword) => {
+  return {
+    type: "SEARCH_NOTES",
+    payload: axios.get(URL+`/notes?search=`+keyword)
+  };
+};
+
+export const sortNotes = (sort) => {
+  return {
+    type: "SORT_NOTES",
+    payload: axios.get(URL+`/notes?sort=`+sort)
+  };
+};
+
+

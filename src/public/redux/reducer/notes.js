@@ -5,9 +5,9 @@ const initialState = {
   isLoading: false,
   isError: false
 };
-let notes
+let notes;
 // create a reducer for getting network from RESTful API
-export default notes = (state = initialState, action) => {
+export default (notes = (state = initialState, action) => {
   switch (action.type) {
     //get notes
     case "GET_NOTES_PENDING": // in case when loading get data
@@ -72,7 +72,6 @@ export default notes = (state = initialState, action) => {
 
       console.log("state.data");
       console.log(state.data);
-      
 
       return {
         ...state,
@@ -96,16 +95,64 @@ export default notes = (state = initialState, action) => {
         isLoading: false
       };
     case "DELETE_NOTES_FULFILLED":
-      console.log('state data');
-      console.log(state.data);
-      console.log(action.payload.data.data);
-      console.log(action.payload.data.data.id);
-      
+      // console.log('state data');
+      // console.log(state.data);
+      // console.log(action.payload.data.data);
+      // console.log(action.payload.data.data.id);
+
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: state.data.filter(notes => notes.id != action.payload.data.data.id)
+        data: state.data.filter(
+          notes => notes.id != action.payload.data.data.id
+        )
+      };
+
+    case "SEARCH_NOTES_PENDING":
+      return {
+        ...state,
+        isLoading: true
+      };
+    case "SEARCH_NOTES_REJECTED":
+      return {
+        ...state,
+        isLoading: false
+      };
+    case "SEARCH_NOTES_FULFILLED":
+      // console.log('state data');
+      // console.log(state.data);
+      // console.log(action.payload.data.data);
+      // console.log(action.payload.data.data.id);
+
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload.data.values
+      };
+
+      case "SORT_NOTES_PENDING":
+      return {
+        ...state,
+        isLoading: true
+      };
+    case "SORT_NOTES_REJECTED":
+      return {
+        ...state,
+        isLoading: false
+      };
+    case "SORT_NOTES_FULFILLED":
+      // console.log('state data');
+      // console.log(state.data);
+      // console.log(action.payload.data.data);
+      // console.log(action.payload.data.data.id);
+
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload.data.values
       };
 
     //GET CATEGORIES
@@ -136,4 +183,4 @@ export default notes = (state = initialState, action) => {
     default:
       return state;
   }
-};
+});

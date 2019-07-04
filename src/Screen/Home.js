@@ -30,7 +30,12 @@ import {
 import { connect } from "react-redux";
 
 // import action
-import { getNotes, deleteNotes } from "../public/redux/action/notes";
+import {
+  getNotes,
+  deleteNotes,
+  searchNotes,
+  sortNotes
+} from "../public/redux/action/notes";
 
 class Home extends Component {
   constructor(props) {
@@ -69,25 +74,34 @@ class Home extends Component {
 
   // key extractor for FlatList with data from randomusers
   _keyExtractor = (item, index) => item.id;
-  deleteNotes = (id) => {
+  deleteNotes = id => {
     this.props.dispatch(deleteNotes(id));
-  }
+  };
+  searchNotes = keyword => {
+    this.props.dispatch(searchNotes(keyword));
+  };
 
-  
-  
+  sortNotes = sort => {
+    if (sort == "asc") {
+      this.props.dispatch(sortNotes('asc'));
+    } else {
+      this.props.dispatch(sortNotes('desc'));
+    }
+  };
 
   renderItem = ({ item }) => (
     <TouchableOpacity
-      onLongPress={()=> Alert.alert(
-        'Delete Note',
-        'Are you sure will you delete this note',
-        [
-          {text: 'Cancel'},
-          {text:'Ok', onPress:() => this.deleteNotes(item.id)},
-        ],
-        {cancelable: false},
-      )}
-
+      onLongPress={() =>
+        Alert.alert(
+          "Delete Note",
+          "Are you sure will you delete this note",
+          [
+            { text: "Cancel" },
+            { text: "Ok", onPress: () => this.deleteNotes(item.id) }
+          ],
+          { cancelable: false }
+        )
+      }
       onPress={() => this.props.navigation.navigate("Edit", item)}
       style={[
         styles.itemContainer,
@@ -113,7 +127,7 @@ class Home extends Component {
   );
 
   render() {
-    console.warn(this.props.data)
+    console.warn(this.props.data);
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
@@ -147,7 +161,6 @@ class Home extends Component {
 
         {/* Modal Sort */}
         <Modal
-          animationType="slide"
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
@@ -163,6 +176,7 @@ class Home extends Component {
               <TouchableHighlight
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
+                  this.sortNotes("asc");
                 }}
               >
                 <Text>ASCENDING</Text>
@@ -170,6 +184,7 @@ class Home extends Component {
               <TouchableHighlight
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
+                  this.sortNotes("desc");
                 }}
               >
                 <Text>DESCENDING</Text>
@@ -180,7 +195,12 @@ class Home extends Component {
 
         <Header searchBar rounded style={styles.headerSearch}>
           <Item>
-            <Input placeholder="Search" />
+            <Input
+              placeholder="Search"
+              onChangeText={keyword => {
+                this.searchNotes(keyword);
+              }}
+            />
           </Item>
           <Button transparent>
             <Text>Search</Text>
@@ -213,14 +233,13 @@ class Home extends Component {
 // map state to props to referring data in store
 const mapStateToProps = state => {
   return {
-      notes: state.notes
-      // auth: state.auth
-  }
-}
+    notes: state.notes
+    // auth: state.auth
+  };
+};
 
 // connect with redux,first param is map and second is component
-export default connect(mapStateToProps)(Home)
-
+export default connect(mapStateToProps)(Home);
 
 const styles = StyleSheet.create({
   modalSort: {

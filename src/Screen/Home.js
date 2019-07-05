@@ -40,14 +40,19 @@ import {
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      search: "",
+      sort: "",
+      modalVisible: false
+
+      
+    };
   }
   static navigationOptions = {
     drawerIcon: <Icon name="home" style={{ color: "#000000" }} />
   };
 
-  state = {
-    modalVisible: false
-  };
+  
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -77,15 +82,21 @@ class Home extends Component {
   deleteNotes = id => {
     this.props.dispatch(deleteNotes(id));
   };
-  searchNotes = keyword => {
-    this.props.dispatch(searchNotes(keyword));
+  searchNotes = () => {
+    let data = {
+      search: this.state.search,
+      sort: this.state.sort,
+    };
+    this.props.dispatch(searchNotes(data));
   };
 
   sortNotes = sort => {
     if (sort == "asc") {
-      this.props.dispatch(sortNotes('asc'));
+      this.setState({ sort:'asc' });
+      this.searchNotes()
     } else {
-      this.props.dispatch(sortNotes('desc'));
+      this.setState({ sort:'desc' });
+      this.searchNotes()
     }
   };
 
@@ -127,7 +138,7 @@ class Home extends Component {
   );
 
   render() {
-    console.warn(this.props.data);
+    console.warn(this.state);
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
@@ -198,7 +209,8 @@ class Home extends Component {
             <Input
               placeholder="Search"
               onChangeText={keyword => {
-                this.searchNotes(keyword);
+                this.setState({ search:keyword });
+                this.searchNotes();
               }}
             />
           </Item>

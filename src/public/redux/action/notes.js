@@ -42,10 +42,10 @@ export const deleteNotes = (id) => {
   };
 };
 
-export const searchNotes = (keyword) => {
+export const searchNotes = (data) => {
   return {
     type: "SEARCH_NOTES",
-    payload: axios.get(URL+`/notes?search=`+keyword)
+    payload: axios.get(URL+'/notes?search='+data.search+'&sort='+data.sort)
   };
 };
 

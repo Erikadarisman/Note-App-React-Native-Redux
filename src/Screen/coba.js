@@ -38,6 +38,7 @@ import {
 
 import debounce from "lodash.debounce";
 
+let color = ['black','blue','orange', '#b2ebf2', '#ffecb3' ,'#ffccbc']
 
 class Home extends Component {
   constructor(props) {
@@ -119,14 +120,7 @@ class Home extends Component {
       style={[
         styles.itemContainer,
         {
-          backgroundColor:
-            item.idCategory == "1"
-              ? "#FF92A9"
-              : item.idCategory == "2"
-              ? "#C0EB6A"
-              : item.idCategory == "3"
-              ? "#FAD06C"
-              : "#2FC2DF"
+          backgroundColor:(item.idCategory!==null) ? color[item.idCategory]:'red'
         }
       ]}
     >

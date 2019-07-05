@@ -53,7 +53,8 @@ class Note extends React.Component {
   };
 
   render() {
-    // console.warn(this.state);
+    console.warn("CCCCCCCCCC");
+    console.warn(this.state.idCategory);
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
@@ -104,11 +105,10 @@ class Note extends React.Component {
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
-              placeholder="Select Category"
               placeholderStyle={{ color: "#bfc6ea" }}
               placeholderIconColor="#007aff"
               style={styles.pickerStyle}
-              selectedValue={this.props.navigation.state.params.idCategory}
+              selectedValue={this.state.idCategory}
               onValueChange={hasil =>
                 this.setState({
                   idCategory: hasil

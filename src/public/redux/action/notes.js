@@ -1,7 +1,7 @@
 // import axios for getting data from API
 import axios from "axios";
 
-const URL = "http://192.168.6.138:4000";
+const URL = "http://192.168.8.100:4000";
 // export action that get notes
 export const getNotes = () => {
   return {
@@ -9,10 +9,18 @@ export const getNotes = () => {
     payload: axios.get(URL + "/notes")
   };
 };
-export const pageNotes = (page) => {
+
+export const categoryNotes = category => {
+  return {
+    type: "CATEGORY_NOTES",
+    payload: axios.get(URL + "/notes?category=" + category)
+  };
+};
+
+export const pageNotes = page => {
   return {
     type: "PAGE_NOTES",
-    payload: axios.get(URL + "/notes?page="+page)
+    payload: axios.get(URL + "/notes?page=" + page)
   };
 };
 
@@ -29,37 +37,36 @@ export const postNotes = dataNotes => {
   }
 };
 export const editNotes = dataNotes => {
-  if (
-    dataNotes.id !== "" &&
-    dataNotes.title !== "" &&
-    dataNotes.text !== "" &&
-    dataNotes.idCategory !== ""
-  ) {
-    return {
-      type: "EDIT_NOTES",
-      payload: axios.patch(URL + "/notes/" + dataNotes.id, dataNotes)
-    };
-  }
+  console.warn(dataNotes);
+
+  return {
+    type: "EDIT_NOTES",
+    payload: axios.patch(URL + "/notes/" + dataNotes.id, {
+      title:dataNotes.title,
+      text:dataNotes.text,
+      idCategory:`${dataNotes.idCategory}`
+    })
+  };
 };
-export const deleteNotes = (id) => {
+export const deleteNotes = id => {
   return {
     type: "DELETE_NOTES",
-    payload: axios.delete(URL+`/notes/`+id)
+    payload: axios.delete(URL + `/notes/` + id)
   };
 };
 
-export const searchNotes = (data) => {
+export const searchNotes = data => {
   return {
     type: "SEARCH_NOTES",
-    payload: axios.get(URL+'/notes?search='+data.search+'&sort='+data.sort)
+    payload: axios.get(
+      URL + "/notes?search=" + data.search + "&sort=" + data.sort
+    )
   };
 };
 
-export const sortNotes = (sort) => {
+export const sortNotes = sort => {
   return {
     type: "SORT_NOTES",
-    payload: axios.get(URL+`/notes?sort=`+sort)
+    payload: axios.get(URL + `/notes?sort=` + sort)
   };
 };
-
-

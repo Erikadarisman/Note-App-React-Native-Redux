@@ -30,12 +30,16 @@ import {
   deleteCategories
 } from "../public/redux/action/categories";
 
+// import action
+import { categoryNotes } from "../public/redux/action/notes";
+
 class CustomDrawer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       image: "",
+      page: 1,
       modalVisible: false
     };
   }
@@ -73,6 +77,10 @@ class CustomDrawer extends Component {
 
   renderItem = ({ item, index }) => (
     <TouchableOpacity
+      onPress={() => {
+        this.props.dispatch(categoryNotes(item.name));
+        this.props.navigation.closeDrawer();
+      }}
       onLongPress={() =>
         Alert.alert(
           "Delete Category",
@@ -101,7 +109,7 @@ class CustomDrawer extends Component {
         }
       >
         <Image
-          source={item.image}
+          source={{ uri: item.image }}
           style={{ width: 25, height: 25, marginRight: 5 }}
         />
         <Text style={{ color: "black", fontSize: 17 }}>{item.name}</Text>

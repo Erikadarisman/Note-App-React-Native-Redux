@@ -111,7 +111,7 @@ class Note extends React.Component {
                   idCategory: hasil
                 })
               }
-            >
+            ><Picker.item label='select category' value={null}/>
               {this.props.categories.data.map(item => (
                 <Picker.Item key={item.id} label={item.name} value={item.id} />
               ))}

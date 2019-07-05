@@ -28,6 +28,23 @@ export default (notes = (state = initialState, action) => {
         totalPage: action.payload.data.totalPage
       };
 
+    case "CATEGORY_NOTES_PENDING": 
+      return {
+        isLoading: true
+      };
+    case "CATEGORY_NOTES_REJECTED": 
+      return {
+        isLoading: false,
+        isError: true
+      };
+    case "CATEGORY_NOTES_FULFILLED": 
+      return {
+        isLoading: false,
+        isError: false,
+        data: action.payload.data.values,
+        totalPage: action.payload.data.totalPage
+      };
+
     case "PAGE_NOTES_PENDING": 
       return {
         ...state,
@@ -137,12 +154,10 @@ export default (notes = (state = initialState, action) => {
 
     case "SEARCH_NOTES_PENDING":
       return {
-        ...state,
         isLoading: true
       };
     case "SEARCH_NOTES_REJECTED":
       return {
-        ...state,
         isLoading: false
       };
     case "SEARCH_NOTES_FULFILLED":
@@ -152,7 +167,6 @@ export default (notes = (state = initialState, action) => {
       // console.log(action.payload.data.data.id);
 
       return {
-        ...state,
         isLoading: false,
         isError: false,
         data: action.payload.data.values
@@ -180,31 +194,6 @@ export default (notes = (state = initialState, action) => {
         isError: false,
         data: action.payload.data.values
       };
-
-    //GET CATEGORIES
-
-    // example when updating/deleting and not getting all notes again
-    // case 'UPDATE_NOTE_FULFILLED':
-    //     return {
-    //         isLoading: false,
-    //         isError: false,
-    //         data: {
-    //             ...state, // get all previous state
-
-    // deleting from array
-    // data: state.data.filter(note => {
-    // note.login.username !== action.payload.data // when deleting
-    // })
-
-    // updating array
-    // data: state.data.map((item, index) => {
-    //     if(item.login.username === action.payload.data.login.username ){
-    //         item = action.paypload.data // change note to newest one
-    //     }
-    //     return item;
-    // })
-    //     }
-    // }
 
     default:
       return state;

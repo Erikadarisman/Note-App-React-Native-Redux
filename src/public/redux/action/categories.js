@@ -1,7 +1,7 @@
 // import axios for getting data from API
 import axios from "axios";
 
-const url = "http://192.168.100.55:4000";
+const url = "http://192.168.6.138:4000";
 
 export const getCategory = () => {
   return {

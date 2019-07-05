@@ -1,12 +1,18 @@
 // import axios for getting data from API
 import axios from "axios";
 
-const URL = "http://192.168.100.55:4000";
+const URL = "http://192.168.6.138:4000";
 // export action that get notes
 export const getNotes = () => {
   return {
     type: "GET_NOTES",
     payload: axios.get(URL + "/notes")
+  };
+};
+export const pageNotes = (page) => {
+  return {
+    type: "PAGE_NOTES",
+    payload: axios.get(URL + "/notes?page="+page)
   };
 };
 

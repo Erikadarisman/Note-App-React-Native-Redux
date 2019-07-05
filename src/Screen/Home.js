@@ -29,12 +29,13 @@ import {
 // import connect to connect with redux store
 import { connect } from "react-redux";
 
+
 // import action
 import {
   getNotes,
   deleteNotes,
   searchNotes,
-  sortNotes
+  pageNotes
 } from "../public/redux/action/notes";
 
 class Home extends Component {
@@ -43,6 +44,7 @@ class Home extends Component {
     this.state = {
       search: "",
       sort: "",
+      page:1,
       modalVisible: false
 
       
@@ -100,6 +102,20 @@ class Home extends Component {
     }
   };
 
+  pageNotes = () => {
+    if (this.state.page!==this.props.notes.totalPage) {
+      let page = this.state.page+1;
+      this.setState({
+        page: page
+      })
+      this.props.dispatch(pageNotes(page));
+    }
+  }
+
+  asd = (page) => {
+    this.props.dispatch(pageNotes(page));
+  }
+
   renderItem = ({ item }) => (
     <TouchableOpacity
       onLongPress={() =>
@@ -137,8 +153,7 @@ class Home extends Component {
     </TouchableOpacity>
   );
 
-  render() {
-    console.warn(this.state);
+  render() {    
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
@@ -219,15 +234,17 @@ class Home extends Component {
           </Button>
         </Header>
 
-        <Content>
+        
           <FlatList
             data={this.props.notes.data}
             keyExtractor={this._keyExtractor}
             renderItem={this.renderItem}
             style={styles.gridView}
             numColumns={2}
+            onEndReachedThreshold={0.1}
+            onEndReached={this.pageNotes}
           />
-        </Content>
+        
         <Fab
           direction="up"
           containerStyle={{}}

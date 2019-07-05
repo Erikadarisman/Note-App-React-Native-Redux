@@ -2,6 +2,7 @@ const initialState = {
   number: 10,
   data: [],
   values: [],
+  totalPage:"",
   isLoading: false,
   isError: false
 };
@@ -23,7 +24,32 @@ export default (notes = (state = initialState, action) => {
       return {
         isLoading: false,
         isError: false,
-        data: action.payload.data.values
+        data: action.payload.data.values,
+        totalPage: action.payload.data.totalPage
+      };
+
+    case "PAGE_NOTES_PENDING": 
+      return {
+        ...state,
+        isLoading: true
+      };
+    case "PAGE_NOTES_REJECTED": 
+      return {
+        ...state,
+        isLoading: false,
+        isError: true
+      };
+    case "PAGE_NOTES_FULFILLED": 
+    // console.log('xxxxxxxxxxxxxx');
+    // console.log(action.payload.data.totalPage);
+    // console.log('...state');
+    // console.log(state.data);
+    
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: [...state.data].concat( action.payload.data.values)
       };
 
     //add notes

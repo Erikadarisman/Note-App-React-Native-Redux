@@ -66,7 +66,9 @@ export default (notes = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: [...state.data].concat( action.payload.data.values)
+        data: [...state.data].concat( action.payload.data.values),
+        totalPage: action.payload.data.totalPage
+
       };
 
     //add notes

@@ -5,6 +5,7 @@ import {
   Input,
   Item,
   Title,
+  Content,
   Button,
   Left,
   Right,
@@ -38,7 +39,6 @@ import {
 
 import debounce from "lodash.debounce";
 
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +60,7 @@ class Home extends Component {
     this.props.dispatch(getNotes());
     this.setState({
       refreshing: false
-    })
+    });
   };
 
   componentDidMount = () => {
@@ -72,33 +72,38 @@ class Home extends Component {
   deleteNotes = id => {
     this.props.dispatch(deleteNotes(id));
   };
-  searchNotes = (keyword) => {
-    this.setState({search:keyword})
-    let data = {
-      search: this.state.search,
-      sort: this.state.sort
-      
-    };
-    this.props.dispatch(searchNotes(data));
+
+  sort = (search, sort) => {
+    this.setModalVisible(!this.state.modalVisible);
+    this.searchNotes(search, sort);
+  };
+
+  keyword = keyword => {
+    this.setState({ search: keyword });
+    this.searchNotes(keyword, this.state.sort);
+  };
+
+  searchNotes = (search, sort) => {
+    this.props.dispatch(searchNotes(search, sort));
   };
 
   sortNotes = sort => {
     if (sort == "asc") {
       this.setState({ sort: "asc" });
-      this.searchNotes();
+      this.searchNotes(this.state.search, this.state.sort);
     } else {
       this.setState({ sort: "desc" });
-      this.searchNotes();
+      this.searchNotes(this.state.search, this.state.sort);
     }
   };
 
-  pageNotes = () => {  
-    if (this.props.notes.totalPage !== this.state.page) {
+  pageNotes = () => {
+    if (this.state.page !== this.props.notes.totalPage) {
       let page = this.state.page + 1;
       this.setState({
         page: page
       });
-      this.props.dispatch(pageNotes(page));
+      this.props.dispatch(pageNotes(page,this.state.search,this.state.sort));
     }
   };
 
@@ -132,8 +137,14 @@ class Home extends Component {
     >
       <Text style={styles.itemDate}>{item.created_at}</Text>
       <Text style={styles.itemTitle}>{item.title}</Text>
-      
-      <Text style={styles.itemCategory}>{item.category==null ? <Text style={styles.itemCategory}>-</Text> : item.category}</Text>
+
+      <Text style={styles.itemCategory}>
+        {item.category == null ? (
+          <Text style={styles.itemCategory}>-</Text>
+        ) : (
+          item.category
+        )}
+      </Text>
       <Text numberOfLines={6} style={styles.itemText}>
         {item.text}
       </Text>
@@ -141,6 +152,9 @@ class Home extends Component {
   );
 
   render() {
+    console.log('xxxxxxxxxxx');
+    console.log(this.props.notes.totalPage);
+    
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>
@@ -188,16 +202,14 @@ class Home extends Component {
             <View style={styles.modalSort}>
               <TouchableHighlight
                 onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                  this.sortNotes("asc");
+                  this.sort(this.state.search, "asc");
                 }}
               >
                 <Text>ASCENDING</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                  this.sortNotes("desc");
+                  this.sort(this.state.search, "desc");
                 }}
               >
                 <Text>DESCENDING</Text>
@@ -210,7 +222,7 @@ class Home extends Component {
           <Item>
             <Input
               placeholder="Search"
-              onChangeText={debounce(this.searchNotes,500)}
+              onChangeText={debounce(this.keyword, 500)}
             />
           </Item>
           <Button transparent>

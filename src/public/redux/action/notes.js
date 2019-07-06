@@ -17,10 +17,12 @@ export const categoryNotes = category => {
   };
 };
 
-export const pageNotes = page => {
+export const pageNotes = (page,search,sort) => {
   return {
     type: "PAGE_NOTES",
-    payload: axios.get(URL + "/notes?page=" + page)
+    payload: axios.get(
+      URL + "/notes?page=" + page + "&search=" + search + "&sort=" + sort
+    )
   };
 };
 
@@ -55,11 +57,11 @@ export const deleteNotes = id => {
   };
 };
 
-export const searchNotes = data => {
+export const searchNotes = (search,sort) => {
   return {
     type: "SEARCH_NOTES",
     payload: axios.get(
-      URL + "/notes?search=" + data.search + "&sort=" + data.sort
+      URL + "/notes?search=" + search + "&sort=" + sort
     )
   };
 };

@@ -39,7 +39,6 @@ export const postNotes = dataNotes => {
   }
 };
 export const editNotes = dataNotes => {
-  console.warn(dataNotes);
 
   return {
     type: "EDIT_NOTES",

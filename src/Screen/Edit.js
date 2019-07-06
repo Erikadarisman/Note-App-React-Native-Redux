@@ -53,8 +53,6 @@ class Note extends React.Component {
   };
 
   render() {
-    console.warn("CCCCCCCCCC");
-    console.warn(this.state.idCategory);
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>

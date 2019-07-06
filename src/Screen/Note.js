@@ -50,10 +50,6 @@ class Note extends React.Component {
   };
 
   render() {
-    // console.log("XXXXXXXX this.props XXXXXXXXX");
-    // console.log(this.props.categories.data);
-    // console.log(this.state);
-
     return (
       <Container>
         <Header style={{ backgroundColor: "#ffffff" }}>

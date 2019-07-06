@@ -51,6 +51,18 @@ class Home extends Component {
     };
   }
 
+  setDate = (datenote) => {
+    let mount = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei','Jun', 'Jul','Agu', 'Sep', 'Okt', 'Nov','Des'];
+  
+    let date = new Date(datenote)
+    let day = date.getDay()+1;
+    let Month = date.getMonth();
+  
+    let fixDate = day+' '+mount[Month]
+  
+    return fixDate
+  }
+
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -135,7 +147,7 @@ class Home extends Component {
         }
       ]}
     >
-      <Text style={styles.itemDate}>{item.created_at}</Text>
+      <Text style={styles.itemDate}>{this.setDate(item.created_at)}</Text>
       <Text style={styles.itemTitle}>{item.title}</Text>
 
       <Text style={styles.itemCategory}>
@@ -152,8 +164,6 @@ class Home extends Component {
   );
 
   render() {
-    console.log('xxxxxxxxxxx');
-    console.log(this.props.notes.totalPage);
     
     return (
       <Container>

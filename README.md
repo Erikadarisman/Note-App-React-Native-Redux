@@ -15,7 +15,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-v.10.16-green.svg?style=rounded-square)](https://nodejs.org/)
 [![Redux.js](https://img.shields.io/badge/Redux.js-4.0.1-purple.svg?style=rounded-square)](https://redux.js.org/)
 
-Here is my new repository which builded with React Native Framework for making the User Interface in JavaScript syntax, see my previous repository about [NoteApp-ExpressJS-RESTfulApi](#) for the backend side and making API.
+Here is my new repository which builded with React Native Framework for making the User Interface in JavaScript syntax, see my previous repository about [NoteApp-ExpressJS-RESTfulApi](https://github.com/kdrsm/Note-App-Using-ExpressJS) for the backend side and making API.
 
 ### What is React Native ?
 React Native is an open-source mobile application framework created by Facebook. It is used to develop applications for Android, iOS and UWP by enabling developers to use React along with native platform capabilities. [[1]](https://en.wikipedia.org/wiki/React_Native)
@@ -36,6 +36,11 @@ React Native invokes Objective-C APIs to render to iOS components, or Java APIs 
 3. Open your terminal or cmd and type `npm install`
 4. And the last just type in your terminal or cmd `react-native run-android`, be sure if you connected with a device on debugging mode or use the emulator on debugging mode too.
 
+## Video Demo
+<p align='center'>
+  <a href="https://www.youtube.com/watch?v=OfLCWLs1ZEo">Demo Note App react native redux and expressJs</a>
+</p>
+
 ## Screenshot from the app
 <p align='center'>
   <span>
@@ -46,5 +51,10 @@ React Native invokes Objective-C APIs to render to iOS components, or Java APIs 
   <img src='https://github.com/kadarisman46/Note-App-React-Native-Redux/blob/master/ss/Screenshot_20190707-224131.jpg' width=200 />
   <img src='https://github.com/kadarisman46/Note-App-React-Native-Redux/blob/master/ss/Screenshot_20190707-224141.jpg' width=200 />
   </span>
+</p>
+
+## Download APK
+<p align='center'>
+  <a href="https://drive.google.com/open?id=1-WO4dFGSyV0sfOg0I2vvj_nQAjFs2KX7">Download</a>
 </p>
 

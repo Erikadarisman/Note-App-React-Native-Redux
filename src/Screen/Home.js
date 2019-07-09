@@ -5,7 +5,6 @@ import {
   Input,
   Item,
   Title,
-  Content,
   Button,
   Left,
   Right,
@@ -23,7 +22,8 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
-  Modal
+  Modal,
+  StatusBar
 } from "react-native";
 
 // import connect to connect with redux store
@@ -76,6 +76,7 @@ class Home extends Component {
   };
 
   componentDidMount = () => {
+    StatusBar.setHidden(false);
     this.fetchData();
   };
 

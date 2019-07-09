@@ -23,7 +23,6 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  StatusBar
 } from "react-native";
 
 // import connect to connect with redux store
